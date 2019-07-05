@@ -1,0 +1,49 @@
+{% extends 'base/layout.html' %}
+{% load static %}
+{% block context %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {% if message.tags %} alert-{{message.tags}} {% endif %}" role="alert">
+                {{message}}
+            </div>
+        {% endfor %}
+    {% endif %}
+    <div class="container">
+        <form action="" method="POST" class="mt-4">
+            {% csrf_token %}{{form.as_p}}
+            <input type="submit" value="search" class='btn btn-info'>
+        </form>
+        <br>
+        <a href="create" class='btn btn-success'>create</a>
+    </div>
+    
+    
+    <div class="container">
+        {% if result %}
+        <br>
+            <table class="table table-dark">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">id.</th>
+                        <th scope="col">student name</th>
+                        <th scope="col">department</th>
+                        <th scope="col">action</th>
+                    </tr>
+                </thead>
+                <tbody class="tbody-dark">
+                    {% for r in result %}
+                        <tr>
+                            <th scope="row">{{r.id}}</th>
+                            <td>{{r.student_name}}</td>
+                            <td>{{r.department}}</td>
+                            <td>
+                                <a href="edit-student/{{r.id}}" class="btn btn-primary">edit</a>
+                                <a href="delete-student/{{r.id}}" class="btn btn-danger">delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+{% endblock %}
